@@ -16,6 +16,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { WeatherModule } from './weather/weather.module';
 import { ConfigModule } from '@nestjs/config';
+import { GenerateModule } from './generate/generate.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ConfigModule } from '@nestjs/config';
     MongooseModule.forRoot('mongodb://localhost/nest'),
     UserModule,
     WeatherModule,
+    GenerateModule,
   ],
 })
 export class AppModule {}
