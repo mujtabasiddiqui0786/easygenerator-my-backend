@@ -23,7 +23,7 @@ import { GenerateModule } from './generate/generate.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     UserModule,
     WeatherModule,
     GenerateModule,
