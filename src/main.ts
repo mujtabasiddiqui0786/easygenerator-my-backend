@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
   app.enableCors({
-    origin: 'http://localhost:3000', // Replace with your React app's URL
+    origin: configService.get<string>('FRONTEND_URL') || 'http://localhost:3000', // Replace with your React app's URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
@@ -15,7 +17,7 @@ async function bootstrap() {
     next();
   });
 
-  const port = 5000;
+  const port = configService.get<number>('PORT') || 5000;
   await app.listen(port, () => {
     Logger.log(`Server is running at http://localhost:${port}`, 'Bootstrap');
   });
