@@ -4,7 +4,7 @@ import { WeatherService } from './weather.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard'; // Ensure this is imported
 
 @Controller('weather')
-@UseGuards(JwtAuthGuard) // Use the JwtAuthGuard to protect this controller
+// @UseGuards(JwtAuthGuard) // Use the JwtAuthGuard to protect this controller
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 

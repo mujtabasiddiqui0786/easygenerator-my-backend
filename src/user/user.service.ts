@@ -4,7 +4,8 @@ import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt'; // Import JwtService
+import { JwtService } from '@nestjs/jwt';
+import { generateToken } from '../utils/jwt.util'; // Import the utility function
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,6 @@ export class UserService {
     private jwtService: JwtService, // Inject JwtService
   ) {}
   
-
   private validatePassword(password: string): boolean {
     const lengthRequirement = /.{8,}/;
     const letterRequirement = /[A-Za-z]/;
@@ -28,7 +28,7 @@ export class UserService {
     );
   }
 
-  async signUp(email: string, name: string, password: string): Promise<UserDocument> {
+  async signUp(email: string, name: string, password: string): Promise<{ accessToken: string }> {
     if (!this.validatePassword(password)) {
       throw new BadRequestException('Password does not meet requirements.');
     }
@@ -40,23 +40,28 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new this.userModel({ email, name, password: hashedPassword });
-    return user.save();
+    const savedUser = await user.save();
+
+    // Generate JWT token using the utility function
+    const accessToken = generateToken(this.jwtService, savedUser);
+
+    return { accessToken };
   }
 
-    // Implement signIn method
-    async signIn(email: string, password: string): Promise<{ accessToken: string }> {
-        const user = await this.userModel.findOne({ email });
-        if (!user) {
-        throw new BadRequestException('Invalid credentials.');
-        }
-    
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-        throw new BadRequestException('Invalid credentials.');
-        }
-    
-        const payload = { email: user.email, sub: user._id };
-        const accessToken = this.jwtService.sign(payload);
-        return { accessToken };
+  async signIn(email: string, password: string): Promise<{ accessToken: string }> {
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new BadRequestException('Invalid credentials.');
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('Invalid credentials.');
+    }
+
+    // Generate JWT token using the utility function
+    const accessToken = generateToken(this.jwtService, user);
+
+    return { accessToken };
+  }
 }
