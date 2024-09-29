@@ -5,7 +5,7 @@ import { WeatherController } from './weather.controller';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [AuthModule],
+  // imports: [AuthModule],
   controllers: [WeatherController],
   providers: [WeatherService],
 })

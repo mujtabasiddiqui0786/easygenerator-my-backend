@@ -14,23 +14,29 @@ export class JwtAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+
+    // If the route is public, allow access without authentication
     if (isPublic) {
-      return true; // Allow access without authentication
+      return true;
     }
 
+    // Otherwise, check for the JWT token
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
-    if (!authHeader) {
-      throw new UnauthorizedException('Missing token');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Missing or malformed token');
     }
 
     const token = authHeader.split(' ')[1];
     if (!token) {
-      throw new UnauthorizedException('Missing token');
+      throw new UnauthorizedException('Token is missing');
     }
 
     try {
-      const decoded = this.jwtService.verify(token);
+      const decoded = this.jwtService.verify(token, {
+        secret: process.env.JWT_SECRET, // Ensure the JWT secret matches
+      });
       request.user = decoded;
       return true;
     } catch (error) {

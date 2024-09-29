@@ -1,17 +1,17 @@
 // src/weather/weather.controller.ts
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
 import { WeatherService } from './weather.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'; // Ensure this is imported
+// import { Public } from '../auth/public.decorator';
 
-@Controller('weather')
-// @UseGuards(JwtAuthGuard) // Use the JwtAuthGuard to protect this controller
+@Controller('weather') // This ensures the route is explicitly '/weather'
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 
+  // @Public()
   @Get()
   async getWeather(@Query('city') city: string) {
     if (!city) {
-      throw new Error('City parameter is required');
+      throw new BadRequestException('City parameter is required');
     }
     return this.weatherService.getWeather(city);
   }

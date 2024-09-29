@@ -1,8 +1,9 @@
 // src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -15,7 +16,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  providers: [JwtAuthGuard],
-  exports: [JwtModule, JwtAuthGuard],
+  providers: [
+    JwtAuthGuard,
+    {
+      provide: APP_GUARD, // Apply JWT Guard globally
+      useClass: JwtAuthGuard,
+    },
+  ],
+  exports: [JwtModule],
 })
 export class AuthModule {}

@@ -3,17 +3,20 @@ import { Controller, Post, Body, UseGuards, Request, Get, Param, NotFoundExcepti
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserDocument } from './schemas/user.schema';
+import { Public } from '../auth/public.decorator';
 
-@Controller()
+@Controller('user') // Explicitly use 'user' route to avoid conflicts with other endpoints
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Public()
   @Post('signup')
   async signUp(@Body() body: any) {
     const { email, name, password } = body;
     return this.userService.signUp(email, name, password);
   }
 
+  @Public()
   @Post('signin')
   async signIn(@Body() body: any) {
     const { email, password } = body;
@@ -21,14 +24,14 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('dashboard')
+  @Get('dashboard') // Specific route for dashboard
   getDashboard(@Request() req) {
     const user = req.user; // Contains userId and email
     return { message: `Welcome to your dashboard, ${user.email}!` };
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':id')
+  @Get(':id') // Dynamic route, placed at the end to avoid conflicts
   async getUserById(@Param('id') id: string): Promise<UserDocument> {
     const user = await this.userService.findById(id);
     if (!user) {

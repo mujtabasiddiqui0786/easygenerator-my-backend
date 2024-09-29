@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { UserDocument } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { generateToken } from '../utils/jwt.util'; // Import the utility function
+import { JwtService } from '@nestjs/jwt'; // Import JwtService
+import { generateToken } from '../auth/jwt.utils'; // Import the utility function
 
 @Injectable()
 export class UserService {
@@ -13,7 +13,7 @@ export class UserService {
     @InjectModel('User') private userModel: Model<UserDocument>,
     private jwtService: JwtService, // Inject JwtService
   ) {}
-  
+
   private validatePassword(password: string): boolean {
     const lengthRequirement = /.{8,}/;
     const letterRequirement = /[A-Za-z]/;
@@ -28,6 +28,7 @@ export class UserService {
     );
   }
 
+  // Sign up logic with token generation
   async signUp(email: string, name: string, password: string): Promise<{ accessToken: string }> {
     if (!this.validatePassword(password)) {
       throw new BadRequestException('Password does not meet requirements.');
@@ -42,12 +43,12 @@ export class UserService {
     const user = new this.userModel({ email, name, password: hashedPassword });
     const savedUser = await user.save();
 
-    // Generate JWT token using the utility function
+    // Generate token for the user
     const accessToken = generateToken(this.jwtService, savedUser);
-
     return { accessToken };
   }
 
+  // Sign in logic with token generation
   async signIn(email: string, password: string): Promise<{ accessToken: string }> {
     const user = await this.userModel.findOne({ email });
     if (!user) {
@@ -59,9 +60,8 @@ export class UserService {
       throw new BadRequestException('Invalid credentials.');
     }
 
-    // Generate JWT token using the utility function
+    // Generate token for the user
     const accessToken = generateToken(this.jwtService, user);
-
     return { accessToken };
   }
 
