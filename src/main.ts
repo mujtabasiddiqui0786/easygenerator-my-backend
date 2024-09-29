@@ -9,9 +9,11 @@ async function bootstrap() {
 
   console.log("FRONTEND_URL = ", configService.get<string>('FRONTEND_URL'));
   app.enableCors({
-    origin: configService.get<string>('FRONTEND_URL') || 'http://localhost:3000', // Replace with your React app's URL
+    // origin: configService.get<string>('FRONTEND_URL') || 'http://localhost:3000', // Replace with your React app's URL
+    origin: '*', // Allows all origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   });
   // Optional: Log incoming requests for debugging
   app.use((req, res, next) => {
