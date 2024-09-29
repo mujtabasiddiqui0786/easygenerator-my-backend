@@ -1,85 +1,153 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+EasyGenerator Backend
+Welcome to the EasyGenerator backend repository! This project is a NestJS application that provides RESTful API services for user authentication, weather information, and content generation using GPT technology.
+Backend URL: https://easygenerator-my-backend.onrender.com
+Table of Contents
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Features
+Getting Started
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Prerequisites
+Installation
+Running the Application
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Project Structure
+Available Scripts
+Environment Variables
+API Documentation
+Security Measures
+Future Enhancements
+License
 
-## Project setup
+Features
 
-```bash
-$ npm install
-```
+User Authentication:
 
-## Compile and run the project
+Sign Up with password validation
+Sign In with JWT token generation
+JWT Authentication for protected routes
 
-```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+User Management:
 
-# production mode
-$ npm run start:prod
-```
+Fetch user details by ID
 
-## Run tests
 
-```bash
-# unit tests
-$ npm run test
+Weather Service:
 
-# e2e tests
-$ npm run test:e2e
+Public endpoint to fetch current weather information
 
-# test coverage
-$ npm run test:cov
-```
 
-## Resources
+Content Generation:
 
-Check out a few resources that may come in handy when working with NestJS:
+EasyGeneratorGPT for content creation
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-## Support
+Error Handling:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Consistent error responses with appropriate HTTP status codes
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Logging and Monitoring:
 
-## License
+Console logging for requests and errors
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+Getting Started
+Prerequisites
+
+Node.js (version 14.x or higher)
+npm or yarn
+MongoDB instance (local or hosted)
+
+Installation
+
+Clone the repository:
+bashCopygit clone https://github.com/yourusername/easygenerator-backend.git
+cd easygenerator-backend
+
+Install dependencies:
+bashCopynpm install
+# or
+yarn install
+
+
+Running the Application
+
+Set up environment variables:
+Create a .env file in the root directory with the following content:
+CopyPORT=5000
+MONGO_URI=mongodb://localhost:27017/easygenerator
+JWT_SECRET=your_jwt_secret
+WEATHER_API_KEY=your_openweather_api_key
+FRONTEND_URL=https://easygenerator-my-app.vercel.app
+
+Start the development server:
+bashCopynpm run start:dev
+# or
+yarn start:dev
+
+The backend should now be running on http://localhost:5000.
+
+Project Structure
+Copysrc/
+├── auth/
+├── user/
+├── weather/
+├── generate/
+├── app.module.ts
+└── main.ts
+Available Scripts
+
+npm run start: Run the app in production mode
+npm run start:dev: Run the app in development mode with hot reload
+npm run build: Build the app for production
+npm run test: Run the test suite
+npm run lint: Lint the codebase using ESLint
+
+Environment Variables
+
+PORT: Server port (default: 5000)
+MONGO_URI: MongoDB connection string
+JWT_SECRET: Secret key for JWT tokens
+WEATHER_API_KEY: OpenWeatherMap API key
+FRONTEND_URL: Frontend application URL for CORS
+
+API Documentation
+Authentication Endpoints
+
+POST /user/signup: Register a new user
+POST /user/signin: Authenticate a user
+
+User Endpoints
+
+GET /user/:id: Retrieve user details by ID
+
+Weather Endpoint
+
+GET /weather: Fetch current weather information for a city
+
+Content Generation Endpoint
+
+POST /generate: Generate content using GPT technology
+
+For detailed request/response formats, please refer to the full API documentation.
+Security Measures
+
+JWT Authentication
+Password validation
+Input validation
+CORS configuration
+Secure error handling
+
+Future Enhancements
+
+Forgot Password functionality
+Rate limiting
+Swagger API documentation
+Advanced logging and monitoring
+Comprehensive testing
+
+License
+This project is licensed under the MIT License.
