@@ -45,7 +45,7 @@ export class UserService {
 
     // Generate token for the user
     const accessToken = generateToken(this.jwtService, savedUser);
-    return { accessToken };
+    return { accessToken, userId: savedUser._id.toString() }as { accessToken: string; userId: string };
   }
 
   // Sign in logic with token generation
@@ -62,7 +62,7 @@ export class UserService {
 
     // Generate token for the user
     const accessToken = generateToken(this.jwtService, user);
-    return { accessToken };
+    return { accessToken, userId: user._id.toString() }as { accessToken: string; userId: string };
   }
 
   // Find user by ID
