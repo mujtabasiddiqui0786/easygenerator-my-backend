@@ -6,6 +6,8 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+
+  console.log("FRONTEND_URL = ", configService.get<string>('FRONTEND_URL'));
   app.enableCors({
     origin: configService.get<string>('FRONTEND_URL') || 'http://localhost:3000', // Replace with your React app's URL
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
