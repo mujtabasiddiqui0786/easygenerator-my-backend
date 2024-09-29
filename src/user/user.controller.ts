@@ -1,7 +1,8 @@
 // src/user/user.controller.ts
-import { Controller, Post, Body, UseGuards, Request, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, Get, Param, NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UserDocument } from './schemas/user.schema';
 
 @Controller()
 export class UserController {
@@ -24,5 +25,15 @@ export class UserController {
   getDashboard(@Request() req) {
     const user = req.user; // Contains userId and email
     return { message: `Welcome to your dashboard, ${user.email}!` };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async getUserById(@Param('id') id: string): Promise<UserDocument> {
+    const user = await this.userService.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return user;
   }
 }
